@@ -6,6 +6,7 @@ using LearnAPI.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,13 +39,13 @@ builder.Services.AddCors(p => p.AddDefaultPolicy(build =>
     build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
 }));
 
-builder.Services.AddRateLimiter(p => p.AddFixedWindowLimiter(policyName: "fixed", options =>
+builder.Services.AddRateLimiter(_ => _.AddFixedWindowLimiter(policyName: "fixedwindow", options =>
 {
-    options.Window=TimeSpan.FromSeconds(10);
+    options.Window = TimeSpan.FromSeconds(10);
     options.PermitLimit = 1;
     options.QueueLimit = 0;
     options.QueueProcessingOrder = System.Threading.RateLimiting.QueueProcessingOrder.OldestFirst;
-}));
+}).RejectionStatusCode=401);
 
 string logpath = builder.Configuration.GetSection("Logging:Logpath").Value;
 var _logger = new LoggerConfiguration()
@@ -59,7 +60,6 @@ builder.Logging.AddSerilog(_logger);
 var app = builder.Build();
 
 app.UseRateLimiter();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
