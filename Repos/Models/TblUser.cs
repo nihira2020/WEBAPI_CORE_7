@@ -37,4 +37,9 @@ public partial class TblUser
 
     [Column("isactive")]
     public bool? Isactive { get; set; }
+
+    [Column("role")]
+    [StringLength(50)]
+    [Unicode(false)]
+    public string? Role { get; set; }
 }

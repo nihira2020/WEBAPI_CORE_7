@@ -1,5 +1,6 @@
 ﻿using LearnAPI.Modal;
 using LearnAPI.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.RateLimiting;
 
 namespace LearnAPI.Controllers
 {
+    [Authorize]
     //[DisableCors]
     [EnableRateLimiting("fixedwindow")]
     [Route("api/[controller]")]
@@ -18,6 +20,7 @@ namespace LearnAPI.Controllers
            this.service = service;
         }
 
+        [AllowAnonymous]
        // [EnableCors("corspolicy1")]
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
