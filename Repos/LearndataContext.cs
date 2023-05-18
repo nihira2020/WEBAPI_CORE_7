@@ -18,6 +18,10 @@ public partial class LearndataContext : DbContext
 
     public virtual DbSet<TblCustomer> TblCustomers { get; set; }
 
+    public virtual DbSet<TblProduct> TblProducts { get; set; }
+
+    public virtual DbSet<TblProductimage> TblProductimages { get; set; }
+
     public virtual DbSet<TblRefreshtoken> TblRefreshtokens { get; set; }
 
     public virtual DbSet<TblUser> TblUsers { get; set; }
