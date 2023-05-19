@@ -3,6 +3,7 @@ using LearnAPI.Container;
 using LearnAPI.Helper;
 using LearnAPI.Modal;
 using LearnAPI.Repos;
+using LearnAPI.Repos.Models;
 using LearnAPI.Service;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -89,6 +90,47 @@ builder.Services.Configure<JwtSettings>(_jwtsetting);
 
 
 var app = builder.Build();
+
+app.MapGet("/minimalapi", () => "Nihira Techiees");
+
+app.MapGet("/getchannel", (string channelname) => "Welcome to " + channelname).WithOpenApi(opt =>
+{
+    var parameter = opt.Parameters[0];
+    parameter.Description = "Enter Channel Name";
+    return opt;
+});
+
+app.MapGet("/getcustomer",async (LearndataContext db) => {
+    return await db.TblCustomers.ToListAsync();
+});
+
+app.MapGet("/getcustomerbycode/{code}", async (LearndataContext db,string code) => {
+    return await db.TblCustomers.FindAsync(code);
+});
+
+app.MapPost("/createcustomer", async (LearndataContext db, TblCustomer customer) => {
+     await db.TblCustomers.AddAsync(customer);
+    await db.SaveChangesAsync();
+});
+
+app.MapPut("/updatecustomer/{code}", async (LearndataContext db, TblCustomer customer,string code) => {
+    var existdata = await db.TblCustomers.FindAsync(code);
+    if(existdata != null)
+    {
+        existdata.Name = customer.Name;
+        existdata.Email = customer.Email;
+    }
+    await db.SaveChangesAsync();
+});
+
+app.MapDelete("/removecustomer/{code}", async (LearndataContext db, string code) => {
+    var existdata = await db.TblCustomers.FindAsync(code);
+    if (existdata != null)
+    {
+        db.TblCustomers.Remove(existdata);
+    }
+    await db.SaveChangesAsync();
+});
 
 app.UseRateLimiter();
 // Configure the HTTP request pipeline.
