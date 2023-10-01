@@ -60,7 +60,7 @@ builder.Services.AddCors(p => p.AddPolicy("corspolicy", build =>
 
 builder.Services.AddCors(p => p.AddPolicy("corspolicy1", build =>
 {
-    build.WithOrigins("https://domain3.com").AllowAnyMethod().AllowAnyHeader();
+    build.WithOrigins("https://localhost:7249").AllowAnyMethod().AllowAnyHeader();
 }));
 
 builder.Services.AddCors(p => p.AddDefaultPolicy(build =>
@@ -134,11 +134,11 @@ app.MapDelete("/removecustomer/{code}", async (LearndataContext db, string code)
 
 app.UseRateLimiter();
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+//}
 
 app.UseStaticFiles();
 
