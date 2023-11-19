@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LearnAPI.Modal
 {
+    [Keyless]
     public class Customermodal
     {
         [StringLength(50)]
