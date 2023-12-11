@@ -6,14 +6,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LearnAPI.Repos.Models;
 
-[Table("tbl_user")]
-public partial class TblUser
+[Table("tbl_tempuser")]
+public partial class TblTempuser
 {
     [Key]
-    [Column("username")]
+    [Column("id")]
+    public int Id { get; set; }
+
+    [Column("code")]
     [StringLength(50)]
     [Unicode(false)]
-    public string Username { get; set; } = null!;
+    public string Code { get; set; } = null!;
 
     [Column("name")]
     [StringLength(250)]
@@ -34,18 +37,4 @@ public partial class TblUser
     [StringLength(50)]
     [Unicode(false)]
     public string? Password { get; set; }
-
-    [Column("isactive")]
-    public bool? Isactive { get; set; }
-
-    [Column("role")]
-    [StringLength(50)]
-    [Unicode(false)]
-    public string? Role { get; set; }
-
-    [Column("islocked")]
-    public bool? Islocked { get; set; }
-
-    [Column("failattempt")]
-    public int? Failattempt { get; set; }
 }

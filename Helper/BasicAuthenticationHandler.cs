@@ -32,10 +32,10 @@ namespace LearnAPI.Helper
                 string[] array = credentials.Split(":");
                 string username = array[0];
                 string password = array[1];
-                var user =await this.context.TblUsers.FirstOrDefaultAsync(item => item.Code == username && item.Password == password);
+                var user =await this.context.TblUsers.FirstOrDefaultAsync(item => item.Username == username && item.Password == password);
                 if (user != null)
                 {
-                    var claim = new[] { new Claim(ClaimTypes.Name, user.Code) };
+                    var claim = new[] { new Claim(ClaimTypes.Name, user.Username) };
                     var identity = new ClaimsIdentity(claim, Scheme.Name);
                     var principal = new ClaimsPrincipal(identity);
                     var ticket = new AuthenticationTicket(principal, Scheme.Name);

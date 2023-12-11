@@ -35,7 +35,7 @@ namespace LearnAPI.Container
             catch(Exception ex)
             {
                 response.ResponseCode = 400;
-                response.Errormessage = ex.Message;
+                response.Message = ex.Message;
                 this.logger.LogError(ex.Message,ex);
             }
             return response;
@@ -79,14 +79,14 @@ namespace LearnAPI.Container
                 else
                 {
                     response.ResponseCode = 404;
-                    response.Errormessage = "Data not found";
+                    response.Message = "Data not found";
                 }
                
             }
             catch (Exception ex)
             {
                 response.ResponseCode = 400;
-                response.Errormessage = ex.Message;
+                response.Message = ex.Message;
             }
             return response;
         }
@@ -111,14 +111,14 @@ namespace LearnAPI.Container
                 else
                 {
                     response.ResponseCode = 404;
-                    response.Errormessage = "Data not found";
+                    response.Message = "Data not found";
                 }
 
             }
             catch (Exception ex)
             {
                 response.ResponseCode = 400;
-                response.Errormessage = ex.Message;
+                response.Message = ex.Message;
             }
             return response;
         }
