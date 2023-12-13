@@ -25,6 +25,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<ICustomerService, CustomerService>();
 builder.Services.AddTransient<IRefreshHandler, RefreshHandler>();
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IUserRoleServicecs, UserRoleService>();
 builder.Services.AddDbContext<LearndataContext>(o =>
 o.UseSqlServer(builder.Configuration.GetConnectionString("apicon")));
 
