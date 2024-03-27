@@ -1,4 +1,5 @@
-﻿using LearnAPI.Helper;
+﻿using AutoMapper;
+using LearnAPI.Helper;
 using LearnAPI.Modal;
 using LearnAPI.Repos;
 using LearnAPI.Repos.Models;
@@ -10,8 +11,10 @@ namespace LearnAPI.Container
     public class UserService : IUserService
     {
         private readonly LearndataContext context;
-        public UserService(LearndataContext learndata) {
+        private readonly IMapper mapper;
+        public UserService(LearndataContext learndata, IMapper mapper) {
             this.context = learndata;
+            this.mapper = mapper;
         }
        public async Task<APIResponse> ConfirmRegister(int userid, string username, string otptext)
         {
@@ -291,6 +294,27 @@ namespace LearnAPI.Container
                 response.Message = "Invalid User";
             }
             return response;
+        }
+
+        public async Task<List<UserModel>> Getall()
+        {
+            List<UserModel> _response = new List<UserModel>();
+            var _data = await this.context.TblUsers.ToListAsync();
+            if (_data != null)
+            {
+                _response = this.mapper.Map<List<TblUser>, List<UserModel>>(_data);
+            }
+            return _response;
+        }
+        public async Task<UserModel> Getbycode(string code)
+        {
+            UserModel _response = new UserModel();
+            var _data = await this.context.TblUsers.FindAsync(code);
+            if (_data != null)
+            {
+                _response = this.mapper.Map<TblUser, UserModel>(_data);
+            }
+            return _response;
         }
     }
 }

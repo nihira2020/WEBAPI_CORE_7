@@ -28,7 +28,7 @@ namespace LearnAPI.Controllers
         [HttpPost("GenerateToken")]
         public async Task<IActionResult> GenerateToken([FromBody] UserCred userCred)
         {
-            var user = await this.context.TblUsers.FirstOrDefaultAsync(item => item.Username == userCred.username && item.Password == userCred.password);
+            var user = await this.context.TblUsers.FirstOrDefaultAsync(item => item.Username == userCred.username && item.Password == userCred.password && item.Isactive==true);
             if (user != null)
             {
                 //generate token
@@ -37,16 +37,16 @@ namespace LearnAPI.Controllers
                 var tokendesc = new SecurityTokenDescriptor
                 {
                     Subject=new ClaimsIdentity(new Claim[]
-                    {
+                    { 
                         new Claim(ClaimTypes.Name,user.Username),
                         new Claim(ClaimTypes.Role,user.Role)
                     }),
-                    Expires=DateTime.UtcNow.AddSeconds(300),
+                    Expires=DateTime.UtcNow.AddSeconds(3000),
                     SigningCredentials=new SigningCredentials(new SymmetricSecurityKey(tokenkey),SecurityAlgorithms.HmacSha256)
                 };
                 var token = tokenhandler.CreateToken(tokendesc);
                 var finaltoken = tokenhandler.WriteToken(token);
-                return Ok(new TokenResponse() { Token=finaltoken,RefreshToken= await this.refresh.GenerateToken(userCred.username)});
+                return Ok(new TokenResponse() { Token=finaltoken,RefreshToken= await this.refresh.GenerateToken(userCred.username),UserRole=user.Role});
 
             }
             else
@@ -91,7 +91,7 @@ namespace LearnAPI.Controllers
                             );
 
                         var _finaltoken = tokenhandler.WriteToken(_newtoken);
-                        return Ok(new TokenResponse() { Token = _finaltoken, RefreshToken = await this.refresh.GenerateToken(username) });
+                        return Ok(new TokenResponse() { Token = _finaltoken, RefreshToken = await this.refresh.GenerateToken(username),UserRole=token.UserRole });
                     }
                     else
                     {

@@ -22,20 +22,20 @@ namespace LearnAPI.Controllers
         }
 
         [HttpPost("confirmregisteration")]
-        public async Task<IActionResult> confirmregisteration(int userid,string username,string otptext)
+        public async Task<IActionResult> confirmregisteration(Confirmpassword _data)
         {
-            var data = await this.userService.ConfirmRegister(userid,username,otptext);
+            var data = await this.userService.ConfirmRegister(_data.userid, _data.username, _data.otptext);
             return Ok(data);
         }
 
         [HttpPost("resetpassword")]
-        public async Task<IActionResult> resetpassword(string username, string oldpassword,string newpassword)
+        public async Task<IActionResult> resetpassword(Resetpassword _data)
         {
-            var data = await this.userService.ResetPassword(username, oldpassword,newpassword);
+            var data = await this.userService.ResetPassword(_data.username, _data.oldpassword, _data.newpassword);
             return Ok(data);
         }
 
-        [HttpPost("forgetpassword")]
+        [HttpGet("forgetpassword")]
         public async Task<IActionResult> forgetpassword(string username)
         {
             var data = await this.userService.ForgetPassword(username);
@@ -43,23 +43,44 @@ namespace LearnAPI.Controllers
         }
 
         [HttpPost("updatepassword")]
-        public async Task<IActionResult> updatepassword(string username,string password,string otptext)
+        public async Task<IActionResult> updatepassword(Updatepassword _data)
         {
-            var data = await this.userService.UpdatePassword(username,password,otptext);
+            var data = await this.userService.UpdatePassword(_data.username,_data.password,_data.otptext);
             return Ok(data);
         }
 
         [HttpPost("updatestatus")]
-        public async Task<IActionResult> updatestatus(string username, bool status)
+        public async Task<IActionResult> updatestatus(Updatestatus _data)
         {
-            var data = await this.userService.UpdateStatus(username, status);
+            var data = await this.userService.UpdateStatus(_data.username, _data.status);
             return Ok(data);
         }
 
         [HttpPost("updaterole")]
-        public async Task<IActionResult> updaterole(string username, string role)
+        public async Task<IActionResult> updaterole(UpdateRole _data)
         {
-            var data = await this.userService.UpdateRole(username, role);
+            var data = await this.userService.UpdateRole(_data.username, _data.role);
+            return Ok(data);
+        }
+
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll()
+        {
+            var data = await this.userService.Getall();
+            if (data == null)
+            {
+                return NotFound();
+            }
+            return Ok(data);
+        }
+        [HttpGet("Getbycode")]
+        public async Task<IActionResult> Getbycode(string code)
+        {
+            var data = await this.userService.Getbycode(code);
+            if (data == null)
+            {
+                return NotFound();
+            }
             return Ok(data);
         }
     }

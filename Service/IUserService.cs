@@ -12,5 +12,7 @@ namespace LearnAPI.Service
         Task<APIResponse> UpdatePassword(string username,string Password,string Otptext);
         Task<APIResponse> UpdateStatus(string username, bool userstatus);
         Task<APIResponse> UpdateRole(string username, string userrole);
+        Task<List<UserModel>> Getall();
+        Task<UserModel> Getbycode(string code);
     }
 }

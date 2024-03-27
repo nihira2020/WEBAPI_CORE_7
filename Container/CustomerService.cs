@@ -30,7 +30,7 @@ namespace LearnAPI.Container
                 await this.context.TblCustomers.AddAsync(_customer);
                 await this.context.SaveChangesAsync();
                 response.ResponseCode = 201;
-                response.Result = data.Code;
+                response.Result = "pass";
             }
             catch(Exception ex)
             {
@@ -74,7 +74,7 @@ namespace LearnAPI.Container
                     this.context.TblCustomers.Remove(_customer);
                     await this.context.SaveChangesAsync();
                     response.ResponseCode = 200;
-                    response.Result = code;
+                    response.Result = "pass";
                 }
                 else
                 {
@@ -106,7 +106,7 @@ namespace LearnAPI.Container
                     _customer.Creditlimit = data.Creditlimit;
                     await this.context.SaveChangesAsync();
                     response.ResponseCode = 200;
-                    response.Result = code;
+                    response.Result = "pass";
                 }
                 else
                 {
